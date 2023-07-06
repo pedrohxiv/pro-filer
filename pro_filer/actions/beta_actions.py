@@ -1,11 +1,20 @@
-"""Arquivo que estudantes devem editar."""
+"""Arquivo que estudantes devem editar"""
 
 
 def show_deepest_file(context):
     if not context["all_files"]:
         print("No files found")
     else:
-        deepest_file = max(context["all_files"], key=len)
+        deepest_file = ""
+        maximum_depth = 0
+
+        for path in context["all_files"]:
+            depth = path.count("/")
+
+            if depth > maximum_depth:
+                deepest_file = path
+                maximum_depth = depth
+
         print(f"Deepest file: {deepest_file}")
 
 
