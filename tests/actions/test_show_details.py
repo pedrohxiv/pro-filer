@@ -1,9 +1,10 @@
 from pro_filer.actions.main_actions import show_details  # NOQA
+from datetime import date
 
 
 def test_show_details_file_not_exists(capsys):
     context = {
-        "base_path": "/home/pedro/trybe-projetos/????"
+        "base_path": "/????"
     }
 
     show_details(context)
@@ -13,37 +14,43 @@ def test_show_details_file_not_exists(capsys):
     assert captured.out == expected_output
 
 
-def test_show_details_file_exists_without_extension(capsys):
+def test_show_details_file_exists_without_extension(capsys, tmp_path):
+    file = tmp_path / "pro-filer-preview"
+    file.touch()
+
     context = {
-        "base_path": "/home/pedro/trybe-projetos/" +
-        "python-026-python-projeto-pro-filer/images"
+        "base_path": str(file)
     }
 
     show_details(context)
+
     captured = capsys.readouterr()
     expected_output = (
-        "File name: images\n"
-        "File size in bytes: 4096\n"
-        "File type: directory\n"
+        "File name: pro-filer-preview\n"
+        "File size in bytes: 0\n"
+        "File type: file\n"
         "File extension: [no extension]\n"
-        "Last modified date: 2023-07-06\n"
+        f"Last modified date: {date.today()}\n"
     )
     assert captured.out == expected_output
 
 
-def test_show_details_file_exists_with_extension(capsys):
+def test_show_details_file_exists_with_extension(capsys, tmp_path):
+    file = tmp_path / "pro-filer-preview.gif"
+    file.touch()
+
     context = {
-        "base_path": "/home/pedro/trybe-projetos/" +
-        "python-026-python-projeto-pro-filer/images/pro-filer-preview.gif"
+        "base_path": str(file)
     }
 
     show_details(context)
+
     captured = capsys.readouterr()
     expected_output = (
         "File name: pro-filer-preview.gif\n"
-        "File size in bytes: 270824\n"
+        "File size in bytes: 0\n"
         "File type: file\n"
         "File extension: .gif\n"
-        "Last modified date: 2023-07-06\n"
+        f"Last modified date: {date.today()}\n"
     )
     assert captured.out == expected_output
