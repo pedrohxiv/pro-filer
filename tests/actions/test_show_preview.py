@@ -10,7 +10,7 @@ def test_show_preview_no_files_no_dirs(capsys):
     show_preview(context)
 
     captured = capsys.readouterr()
-    expected_output = "Found 0 files and 0 directories"
+    expected_output = "Found 0 files and 0 directories\n"
     assert captured.out == expected_output
 
 
@@ -19,7 +19,10 @@ def test_show_preview_with_files_only(capsys):
         "all_files": [
             "src/__init__.py",
             "src/app.py",
-            "src/utils/__init__.py"
+            "src/utils/__init__.py",
+            "src/__main__.py",
+            "src/utils/__main__.py",
+            "src/tests/__init__.py"
         ],
         "all_dirs": []
     }
@@ -28,9 +31,10 @@ def test_show_preview_with_files_only(capsys):
 
     captured = capsys.readouterr()
     expected_output = (
-        "Found 3 files and 0 directories\n"
-        "First 5 files: ['src/__init__.py', 'src/app.py', " +
-        "'src/utils/__init__.py']"
+        "Found 6 files and 0 directories\n"
+        "First 5 files: ['src/__init__.py', 'src/app.py', 'src/utils/" +
+        "__init__.py', 'src/__main__.py', 'src/utils/__main__.py']\n"
+        "First 5 directories: []\n"
     )
     assert captured.out == expected_output
 
@@ -40,7 +44,8 @@ def test_show_preview_with_dirs_only(capsys):
         "all_files": [],
         "all_dirs": [
             "src",
-            "src/utils"
+            "src/utils",
+            "src/tests"
         ]
     }
 
@@ -48,8 +53,9 @@ def test_show_preview_with_dirs_only(capsys):
 
     captured = capsys.readouterr()
     expected_output = (
-        "Found 0 files and 2 directories\n"
-        "First 5 directories: ['src', 'src/utils']"
+        "Found 0 files and 3 directories\n"
+        "First 5 files: []\n"
+        "First 5 directories: ['src', 'src/utils', 'src/tests']\n"
     )
     assert captured.out == expected_output
 
@@ -59,11 +65,15 @@ def test_show_preview_with_files_and_dirs(capsys):
         "all_files": [
             "src/__init__.py",
             "src/app.py",
-            "src/utils/__init__.py"
+            "src/utils/__init__.py",
+            "src/__main__.py",
+            "src/utils/__main__.py",
+            "src/tests/__init__.py"
         ],
         "all_dirs": [
             "src",
-            "src/utils"
+            "src/utils",
+            "src/tests"
         ]
     }
 
@@ -71,9 +81,9 @@ def test_show_preview_with_files_and_dirs(capsys):
 
     captured = capsys.readouterr()
     expected_output = (
-        "Found 3 files and 2 directories\n"
-        "First 5 files: ['src/__init__.py', 'src/app.py', " +
-        "'src/utils/__init__.py']\n"
-        "First 5 directories: ['src', 'src/utils']"
+        "Found 6 files and 3 directories\n"
+        "First 5 files: ['src/__init__.py', 'src/app.py', 'src/utils/" +
+        "__init__.py', 'src/__main__.py', 'src/utils/__main__.py']\n"
+        "First 5 directories: ['src', 'src/utils', 'src/tests']\n"
     )
     assert captured.out == expected_output
